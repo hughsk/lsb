@@ -1,15 +1,17 @@
 {
   "name": "lsb",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Hide string data in the least-significant bits of an array/image",
   "main": "index.js",
   "devDependencies": {
     "clone": "~0.1.6",
     "tape": "~0.2.2",
-    "debounce": "0.0.1"
+    "debounce": "0.0.1",
+    "browserify": "~2.4.0"
   },
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "example": "node_modules/.bin/browserify example.js -o bundle.js"
   },
   "repository": {
     "type": "git",
