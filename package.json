@@ -5,7 +5,8 @@
   "main": "index.js",
   "devDependencies": {
     "clone": "~0.1.6",
-    "tape": "~0.2.2"
+    "tape": "~0.2.2",
+    "debounce": "0.0.1"
   },
   "scripts": {
     "test": "node test.js"
