@@ -1,6 +1,6 @@
 {
   "name": "lsb",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Hide string data in the least-significant bits of an array/image",
   "main": "index.js",
   "devDependencies": {
