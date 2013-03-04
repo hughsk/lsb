@@ -1,4 +1,4 @@
-# lsb #
+# lsb [![Build Status](https://secure.travis-ci.org/hughsk/lsb.png?branch=master)](http://travis-ci.org/hughsk/lsb) #
 
 Hide string data in the least-significant bits of an array. It's an easy way
 of, say, storing information in images invisibly. Note that if you're trying
