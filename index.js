@@ -5,7 +5,7 @@ function stringToBits(str) {
 
   for (var i = 0, l = str.length; i < l; i += 1) {
     var character = str[i]
-      , number = str.charCodeAt(i) || spaceCode
+      , number = str.charCodeAt(i)
 
     // Non-standard characters are treated as spaces
     if (number > 255) number = spaceCode
