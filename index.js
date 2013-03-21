@@ -47,18 +47,29 @@ function encode(channel, stegotext, fn) {
   stegotext = stringToBits(stegotext)
   stegoLength = stegotext.length
 
-  // Encode length into the first 4 bytes
-  channel[fn(0)] = (textLength >> 32) & 255
-  channel[fn(1)] = (textLength >> 24) & 255
-  channel[fn(2)] = (textLength >> 16) & 255
-  channel[fn(3)] = (textLength >>  8) & 255
+  // Encode length into the first 32 bytes
+  var lengthString = ''
+  lengthString += String.fromCharCode((textLength >> 32) & 255)
+  lengthString += String.fromCharCode((textLength >> 24) & 255)
+  lengthString += String.fromCharCode((textLength >> 16) & 255)
+  lengthString += String.fromCharCode((textLength >>  8) & 255)
+  lengthString = stringToBits(lengthString)
 
-  while (i < channelLength && i < stegoLength) {
-    index = fn(i + 4)
-    if (index < 0) break
-    channel[index] = (channel[index] & 254) + (stegotext[i] ? 1 : 0)
-    i += 1
+  function unload(data) {
+    var length = data.length
+    var j = 0
+
+    while (i < channelLength && j < length) {
+      index = fn(i)
+      if (index < 0) break
+      channel[index] = (channel[index] & 254) + (data[j] ? 1 : 0)
+      i += 1
+      j += 1
+    }
   }
+
+  unload(lengthString)
+  unload(stegotext)
 
   return channel
 }
@@ -69,15 +80,22 @@ function decode(channel, fn) {
   var i = 0
     , l = 0
     , stegotext = []
+    , length = []
     , index
 
-  for (var n = 0; n < 4; n += 1) {
-    l += channel[fn(n)] << n * 8
+  for (var n = 0; n < 32; n += 1) {
+    length[n] = (channel[fn(n)] & 1) ? 1 : 0
   }
+  length = bitsToString(length)
+
+  l += length.charCodeAt(0) << 32
+  l += length.charCodeAt(1) << 24
+  l += length.charCodeAt(2) << 16
+  l += length.charCodeAt(3) << 8
   l = Math.min(l * 8, channel.length)
 
   while (i < l) {
-    index = fn(i + 4)
+    index = fn(i + 32)
     if (index < 0) break
     stegotext[i] = (channel[index] & 1) ? 1 : 0
     i += 1
